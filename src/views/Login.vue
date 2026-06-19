@@ -25,33 +25,65 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="page">
-    <div class="card">
-      <h1>Prijava</h1>
-      <p class="subtitle">Dobrodošli nazad!</p>
+  <div class="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 w-full max-w-lg px-10 py-12">
 
-      <div v-if="loggedIn" class="text-lime-400 font-semibold rounded-md px-4 py-2 mb-3">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-slate-900 mb-2">Prijavite se</h1>
+        <p class="text-slate-500 text-base">Dobro došli nazad.</p>
+      </div>
+
+      <div v-if="loggedIn" class="text-green-600 font-semibold text-sm mb-4">
         Uspješno ste se prijavili!
       </div>
-
-      <div v-if="loggedOut" class="text-red-500 font-semibold rounded-md px-4 py-2 mb-3">
+      <div v-if="loggedOut" class="text-slate-500 font-semibold text-sm mb-4">
         Uspješno ste se odjavili!
       </div>
-
-      <div v-if="authStore.error" class="error-msg text-red-500">
+      <div v-if="authStore.error" class="text-red-500 text-sm mb-4">
         {{ authStore.error }}
       </div>
 
-      <div class="form-group">
-        <input v-model="email" type="email" placeholder="Email adresa" />
-        <input v-model="password" type="password" placeholder="Lozinka" />
-        <button class="btn btn-primary" @click="login">Prijavi se</button>
+      <div class="mb-5">
+        <label class="block text-xs font-bold tracking-widest text-slate-700 uppercase mb-2">
+          Email Adresa
+        </label>
+        <input
+          v-model="email"
+          type="email"
+          placeholder="Email adresa"
+          class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"
+        />
       </div>
 
-      <div class="divider">Nemaš račun?</div>
-      <RouterLink to="/signup">
-        <button class="btn btn-ghost" style="width:100%">Registriraj se</button>
-      </RouterLink>
+      <div class="mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <label class="block text-xs font-bold tracking-widest text-slate-700 uppercase">
+            Lozinka
+          </label>
+          <a href="#" class="text-blue-500 text-sm hover:underline">Zaboravili ste lozinku?</a>
+        </div>
+        <input
+          v-model="password"
+          type="password"
+          placeholder="••••••••"
+          class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"
+        />
+      </div>
+
+      <button
+        @click="login"
+        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base rounded-xl py-4 transition-colors"
+      >
+        Prijavite se
+      </button>
+
+      <div class="border-t border-slate-200 mt-8 pt-6 text-center">
+        <span class="text-slate-500 text-sm">Nemate korisnički račun? </span>
+        <RouterLink to="/signup" class="text-blue-500 text-sm hover:underline font-medium">
+          Registrirajte se
+        </RouterLink>
+      </div>
+
     </div>
   </div>
 </template>
