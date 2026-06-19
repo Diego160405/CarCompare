@@ -1,3 +1,23 @@
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/authStore'
+import { useRouter } from 'vue-router'
+
+const authStore = useAuthStore()
+const router = useRouter()
+const loggedOut = ref(false)
+
+// Odjava korisnika - prikaži poruku i preusmjeri na početnu
+const logout = async () => {
+  await authStore.logout()
+  loggedOut.value = true
+  setTimeout(() => {
+    loggedOut.value = false
+    router.push('/')
+  }, 1500)
+}
+</script>
+
 <template>
   <header class="header">
     <RouterLink to="/home" class="logo">CarCompare</RouterLink>
@@ -7,8 +27,16 @@
       <RouterLink to="/compare" class="nav-link">Compare</RouterLink>
     </nav>
 
-    <RouterLink to="/login" class="auth-btn">Sign up / Login</RouterLink>
+    <div v-if="authStore.user" class="user-area">
+      <span class="user-email">{{ authStore.user.email }}</span>
+      <button class="auth-btn logout-btn" @click="logout">Odjava</button>
+    </div>
+    <RouterLink v-else to="/signup" class="auth-btn">Sign up / Login</RouterLink>
   </header>
+
+  <div v-if="loggedOut" class="logout-msg">
+    Uspješno ste se odjavili!
+  </div>
 </template>
 
 <style scoped>
@@ -53,5 +81,28 @@
   padding: 10px 20px;
   font-size: 0.95rem;
   border-radius: 4px;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.logout-btn {
+  border: none;
+  cursor: pointer;
+}
+
+.logout-msg {
+  text-align: center;
+  color: red;
+  font-weight: 600;
+  padding: 12px;
 }
 </style>
