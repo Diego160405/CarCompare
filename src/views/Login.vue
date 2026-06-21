@@ -60,7 +60,6 @@ const login = async () => {
           <label class="block text-xs font-bold tracking-widest text-slate-700 uppercase">
             Lozinka
           </label>
-          <a href="#" class="text-blue-500 text-sm hover:underline">Zaboravili ste lozinku?</a>
         </div>
         <input
           v-model="password"
@@ -69,11 +68,9 @@ const login = async () => {
           class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"
         />
       </div>
-
       <button
         @click="login"
-        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base rounded-xl py-4 transition-colors"
-      >
+        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base rounded-xl py-4 transition-colors">
         Prijavite se
       </button>
 
@@ -83,7 +80,6 @@ const login = async () => {
           Registrirajte se
         </RouterLink>
       </div>
-
     </div>
   </div>
 </template>

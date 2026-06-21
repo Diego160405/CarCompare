@@ -19,47 +19,32 @@ const logout = async () => {
 </script>
 
 <template>
-  <header class="header">
+  <header class="flex items-center justify-between px-8 h-16 bg-white border-b border-gray-200">
     <RouterLink to="/home" class="logo">CarCompare</RouterLink>
 
-    <nav class="nav">
+    <nav class="flex gap-8">
       <RouterLink to="/browse" class="nav-link">Browse</RouterLink>
       <RouterLink to="/compare" class="nav-link">Compare</RouterLink>
     </nav>
 
-    <div v-if="authStore.user" class="user-area">
-      <span class="user-email">{{ authStore.user.email }}</span>
-      <button class="auth-btn logout-btn" @click="logout">Odjava</button>
+    <div v-if="authStore.user" class="flex items-center gap-3">
+      <span class="text-sm text-gray-700">{{ authStore.user.email }}</span>
+      <button class="auth-btn border-none cursor-pointer" @click="logout">Odjava</button>
     </div>
-    <RouterLink v-else to="/signup" class="auth-btn">Sign up / Login</RouterLink>
+    <RouterLink v-else to="/login" class="auth-btn">Sign up / Login</RouterLink>
   </header>
 
-  <div v-if="loggedOut" class="logout-msg">
+  <div v-if="loggedOut" class="text-center text-red-600 font-semibold py-3">
     Uspješno ste se odjavili!
   </div>
 </template>
 
 <style scoped>
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 32px 0 8px;
-  height: 64px;
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
-}
-
 .logo {
   font-size: 1.25rem;
   font-weight: 700;
   color: navy;
   text-decoration: none;
-}
-
-.nav {
-  display: flex;
-  gap: 32px;
 }
 
 .nav-link {
@@ -81,28 +66,5 @@ const logout = async () => {
   padding: 10px 20px;
   font-size: 0.95rem;
   border-radius: 4px;
-}
-
-.user-area {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.user-email {
-  font-size: 0.9rem;
-  color: #374151;
-}
-
-.logout-btn {
-  border: none;
-  cursor: pointer;
-}
-
-.logout-msg {
-  text-align: center;
-  color: red;
-  font-weight: 600;
-  padding: 12px;
 }
 </style>
