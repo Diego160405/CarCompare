@@ -8,6 +8,10 @@ const authStore = useAuthStore()
 <template>
 
   <div>
-    <h1>Home</h1>
+    <div
+      class="w-full bg-cover bg-center"
+      style="height: 768px; background-image: url(
+        '/HomeBackground.jpeg');">
+    </div>
   </div>
 </template>

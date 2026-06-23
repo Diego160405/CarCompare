@@ -23,8 +23,12 @@ const register = async () => {
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 w-full max-w-lg px-10 py-12">
 
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-slate-900 mb-2">Registrirajte se</h1>
-        <p class="text-slate-500 text-base">Napravite vlastiti CarCompare račun.</p>
+        <h1 class="text-4xl font-bold text-slate-900 mb-2">
+          Registrirajte se
+        </h1>
+        <p class="text-slate-500 text-base">
+          Napravite vlastiti CarCompare račun.
+        </p>
       </div>
 
       <div v-if="authStore.error" class="text-red-500 text-sm mb-4">
@@ -39,8 +43,7 @@ const register = async () => {
           v-model="email"
           type="email"
           placeholder="Email adresa"
-          class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"
-        />
+          class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"/>
       </div>
 
       <div class="mb-6">
@@ -51,25 +54,26 @@ const register = async () => {
           v-model="password"
           type="password"
           placeholder="••••••••"
-          class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"
-        />
-        <p class="text-slate-400 text-xs mt-1">Najmanje 6 znakova</p>
+          class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"/>
+        <p class="text-slate-400 text-xs mt-1">
+          Najmanje 6 znakova
+        </p>
       </div>
 
       <button
         @click="register"
-        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base rounded-xl py-4 transition-colors"
-      >
+        class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base rounded-xl py-4 transition-colors">
         Registrirajte se
       </button>
 
       <div class="border-t border-slate-200 mt-8 pt-6 text-center">
-        <span class="text-slate-500 text-sm">Već imate korisnički račun?</span>
+        <span class="text-slate-500 text-sm">
+          Već imate korisnički račun?
+        </span>
         <RouterLink to="/login" class="text-blue-500 text-sm hover:underline font-medium">
           Prijavite se
         </RouterLink>
       </div>
-
     </div>
   </div>
 </template>
