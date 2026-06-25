@@ -29,15 +29,15 @@ const login = async () => {
     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 w-full max-w-lg px-10 py-12">
 
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-slate-900 mb-2">Prijavite se</h1>
-        <p class="text-slate-500 text-base">Dobro došli nazad.</p>
+        <h1 class="text-4xl font-bold text-slate-900 mb-2">Login</h1>
+        <p class="text-slate-500 text-base">Welcome back to CarCompare</p>
       </div>
 
       <div v-if="loggedIn" class="text-green-600 font-semibold text-sm mb-4">
-        Uspješno ste se prijavili!
+        Logged in successfully!
       </div>
       <div v-if="loggedOut" class="text-slate-500 font-semibold text-sm mb-4">
-        Uspješno ste se odjavili!
+        Logged out successfully!
       </div>
       <div v-if="authStore.error" class="text-red-500 text-sm mb-4">
         {{ authStore.error }}
@@ -45,12 +45,12 @@ const login = async () => {
 
       <div class="mb-5">
         <label class="block text-xs font-bold tracking-widest text-slate-700 uppercase mb-2">
-          Email Adresa
+          Email Address
         </label>
         <input
           v-model="email"
           type="email"
-          placeholder="Email adresa"
+          placeholder="email@address.com"
           class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"
         />
       </div>
@@ -58,7 +58,7 @@ const login = async () => {
       <div class="mb-6">
         <div class="flex items-center justify-between mb-2">
           <label class="block text-xs font-bold tracking-widest text-slate-700 uppercase">
-            Lozinka
+            Password
           </label>
         </div>
         <input
@@ -71,13 +71,13 @@ const login = async () => {
       <button
         @click="login"
         class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base rounded-xl py-4 transition-colors">
-        Prijavite se
+        Log in
       </button>
 
       <div class="border-t border-slate-200 mt-8 pt-6 text-center">
-        <span class="text-slate-500 text-sm">Nemate korisnički račun? </span>
+        <span class="text-slate-500 text-sm">Don't have an account?</span>
         <RouterLink to="/signup" class="text-blue-500 text-sm hover:underline font-medium">
-          Registrirajte se
+          Sign up
         </RouterLink>
       </div>
     </div>
