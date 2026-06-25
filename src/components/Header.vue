@@ -19,20 +19,27 @@ const logout = async () => {
 </script>
 
 <template>
+
+  <!-- šalje na home page -->
   <header class="flex items-center justify-between px-8 h-16 bg-white border-b border-gray-200">
     <RouterLink to="/home" class="logo">
       CarCompare
     </RouterLink>
 
     <nav class="flex gap-8">
+
+      <!-- šalje na browse page -->
       <RouterLink to="/browse" class="nav-link">
         Browse
       </RouterLink>
+
+      <!-- šalje na compare page -->
       <RouterLink to="/compare" class="nav-link">
         Compare
       </RouterLink>
     </nav>
 
+    <!-- odjavljuje nas ako smo ulogirani -->
     <div v-if="authStore.user" class="flex items-center gap-3">
       <span class="text-sm text-gray-700">
         {{ authStore.user.email }}
@@ -41,11 +48,14 @@ const logout = async () => {
         Odjava
       </button>
     </div>
+
+    <!-- ako nismo šalje na login page -->
     <RouterLink v-else to="/login" class="auth-btn">
       Sign up / Login
     </RouterLink>
   </header>
 
+  <!-- ispisuje poruku ako je odjava uspješna -->
   <div v-if="loggedOut" class="text-center text-red-600 font-semibold py-3">
     Uspješno ste se odjavili!
   </div>

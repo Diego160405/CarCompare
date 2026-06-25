@@ -10,7 +10,7 @@ const email = ref('')
 const password = ref('')
 
 // Registracija korisnika i preusmjeravanje na početnu stranicu ako nema greške
-const register = async () => {
+const signup = async () => {
   await authStore.register(email.value, password.value)
   if (!authStore.error) {
     router.push('/')
@@ -31,10 +31,12 @@ const register = async () => {
         </p>
       </div>
 
+      <!-- ispise postojeći error, npr. krivi password -->
       <div v-if="authStore.error" class="text-red-500 text-sm mb-4">
         {{ authStore.error }}
       </div>
 
+      <!-- dio za unos emaila -->
       <div class="mb-5">
         <label class="block text-xs font-bold tracking-widest text-slate-700 uppercase mb-2">
           Email Address
@@ -46,6 +48,7 @@ const register = async () => {
           class="w-full border border-slate-300 rounded-xl px-4 py-4 text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 text-base"/>
       </div>
 
+      <!-- dio za unos lozinke -->
       <div class="mb-6">
         <label class="block text-xs font-bold tracking-widest text-slate-700 uppercase mb-2">
           Password
@@ -60,12 +63,14 @@ const register = async () => {
         </p>
       </div>
 
+      <!-- poziva funkciju signup -->
       <button
-        @click="register"
+        @click="signup"
         class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-base rounded-xl py-4 transition-colors">
         Sign up
       </button>
 
+      <!-- šalje na login page ako imamo korisnički račun -->
       <div class="border-t border-slate-200 mt-8 pt-6 text-center">
         <span class="text-slate-500 text-sm">
           Already have an account?
