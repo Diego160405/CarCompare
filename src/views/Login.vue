@@ -37,10 +37,6 @@ const login = async () => {
       <div v-if="loggedIn" class="text-green-600 font-semibold text-sm mb-4">
         Logged in successfully!
       </div>
-      <!-- prikazuje kada korisnik dođe s odjave odjave -->
-      <div v-if="loggedOut" class="text-slate-500 font-semibold text-sm mb-4">
-        Logged out successfully!
-      </div>
 
       <!-- ispise postojeći error, npr. krivi password -->
       <div v-if="authStore.error" class="text-red-500 text-sm mb-4">

@@ -6,9 +6,11 @@ import { useRouter } from 'vue-router'
 const authStore = useAuthStore()
 const router = useRouter()
 const loggedOut = ref(false)
+const dropdownOpen = ref(false)
 
 // Odjava korisnika - prikaži poruku i preusmjeri na početnu
 const logout = async () => {
+  dropdownOpen.value = false
   await authStore.logout()
   loggedOut.value = true
   setTimeout(() => {
@@ -39,26 +41,35 @@ const logout = async () => {
       </RouterLink>
     </nav>
 
-    <!-- odjavljuje nas ako smo ulogirani -->
-    <div v-if="authStore.user" class="flex items-center gap-3">
-      <span class="text-sm text-gray-700">
-        {{ authStore.user.email }}
-      </span>
-      <button class="auth-btn border-none cursor-pointer" @click="logout">
-        Odjava
-      </button>
+    <!-- profilna slika s dropdownom -->
+    <div v-if="authStore.user" class="relative mr-0.5">
+      <img
+        src="/ProfileIcon.jpg"
+        alt="Profile"
+        class="avatar"
+        @click="dropdownOpen = !dropdownOpen"/>
+
+      <!-- ako smo ulogirani odjavljuje nas -->
+      <div v-if="dropdownOpen" class="dropdown">
+        <button @click="logout">
+          Log out
+        </button>
+      </div>
     </div>
 
-    <!-- ako nismo šalje na login page -->
-    <RouterLink v-else to="/login" class="auth-btn">
-      Sign up / Login
-    </RouterLink>
-  </header>
+    <div v-else class="flex items-center gap-3">
 
-  <!-- ispisuje poruku ako je odjava uspješna -->
-  <div v-if="loggedOut" class="text-center text-red-600 font-semibold py-3">
-    Uspješno ste se odjavili!
-  </div>
+      <!-- ispisuje poruku ako je odjava uspješna -->
+      <span v-if="loggedOut" class="text-sm text-red-600 font-semibold">
+        Logged out successfully!
+      </span>
+
+      <!-- ako nismo ulogirani šalje na login page -->
+      <RouterLink to="/login" class="auth-btn">
+        Sign up / Login
+      </RouterLink>
+    </div>
+  </header>
 </template>
 
 <style scoped>
@@ -85,8 +96,45 @@ const logout = async () => {
   background: navy;
   color: white;
   text-decoration: none;
-  padding: 10px 20px;
-  font-size: 0.95rem;
+  padding: 7px 14px;
+  font-size: 0.85rem;
   border-radius: 4px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  background: white;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  min-width: 120px;
+  z-index: 100;
+}
+
+.dropdown button {
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: red;
+}
+
+.dropdown button:hover {
+  background: whitesmoke;
+  border-radius: 8px;
 }
 </style>
