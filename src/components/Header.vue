@@ -24,19 +24,19 @@ const logout = async () => {
 
   <!-- šalje na home page -->
   <header class="flex items-center justify-between px-8 h-16 bg-white border-b border-gray-200">
-    <RouterLink to="/home" class="logo">
+    <RouterLink to="/home" class="text-xl font-bold no-underline" style="color: navy;">
       CarCompare
     </RouterLink>
 
     <nav class="flex gap-8">
 
       <!-- šalje na browse page -->
-      <RouterLink to="/browse" class="nav-link">
+      <RouterLink to="/browse" class="no-underline text-base router-link" style="color: navy;">
         Browse
       </RouterLink>
 
       <!-- šalje na compare page -->
-      <RouterLink to="/compare" class="nav-link">
+      <RouterLink to="/compare" class="no-underline text-base router-link" style="color: navy;">
         Compare
       </RouterLink>
     </nav>
@@ -46,12 +46,15 @@ const logout = async () => {
       <img
         src="/ProfileIcon.jpg"
         alt="Profile"
-        class="avatar"
+        style="width:52px;height:52px;"
+        class="rounded-full object-cover cursor-pointer"
         @click="dropdownOpen = !dropdownOpen"/>
 
       <!-- ako smo ulogirani odjavljuje nas -->
-      <div v-if="dropdownOpen" class="dropdown">
-        <button @click="logout">
+      <div v-if="dropdownOpen" class="absolute left-1/2 -translate-x-1/2 top-full bg-white border border-gray-200 rounded-xl shadow-md min-w-30 z-50">
+        <button
+          class="w-full px-4 py-2.5 bg-transparent border-none text-left cursor-pointer text-sm text-red-500 hover:bg-gray-50 rounded-xl"
+          @click="logout">
           Log out
         </button>
       </div>
@@ -65,7 +68,7 @@ const logout = async () => {
       </span>
 
       <!-- ako nismo ulogirani šalje na login page -->
-      <RouterLink to="/login" class="auth-btn">
+      <RouterLink to="/login" class="text-white no-underline px-3.5 py-1.5 text-sm rounded" style="background: navy;">
         Sign up / Login
       </RouterLink>
     </div>
@@ -73,68 +76,11 @@ const logout = async () => {
 </template>
 
 <style scoped>
-.logo {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: navy;
-  text-decoration: none;
-}
 
-.nav-link {
-  color: navy;
-  text-decoration: none;
-  font-size: 1rem;
-}
-
-.nav-link.router-link-active {
+.router-link.router-link-active {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   font-weight: 700;
 }
 
-.auth-btn {
-  background: navy;
-  color: white;
-  text-decoration: none;
-  padding: 7px 14px;
-  font-size: 0.85rem;
-  border-radius: 4px;
-}
-
-.avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 100%;
-  background: white;
-  border: 1px solid lightgray;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  min-width: 120px;
-  z-index: 100;
-}
-
-.dropdown button {
-  width: 100%;
-  padding: 10px 16px;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: red;
-}
-
-.dropdown button:hover {
-  background: whitesmoke;
-  border-radius: 8px;
-}
 </style>
