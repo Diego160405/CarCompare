@@ -9,13 +9,21 @@ const slotCount = computed(() => authStore.user ? 4 : 2)
 
 </script>
 
+
 <template>
-  <!-- dodavanje naslova -->
-  <div class="flex flex-col items-center pt-16 bg-slate-50 min-h-screen">
-    <h1 class="text-3xl font-bold text-slate-900 mb-12">
-      Compare Vehicles
-    </h1>
-  <!-- dodavanje slotova za compare -->
+  <div class="pt-16 px-6 lg:px-16 bg-slate-50 min-h-screen">
+
+    <!-- dodavanje naslova, tekst ovisi o statusu logina -->
+    <div class="max-w-2xl mb-12">
+      <h1 class="text-4xl font-bold text-slate-900 mb-4">
+        Technical Comparison Tool
+      </h1>
+      <p class="text-slate-500 text-lg leading-relaxed">
+        Analyze and compare up to {{ authStore.user ? 'four' : 'two' }} vehicles side-by-side with high-precision technical specifications and performance data.
+      </p>
+    </div>
+
+    <!-- dodavanje slotova za compare -->
     <div class="flex flex-wrap justify-center gap-8">
       <!-- određujemo koliko će slotova biti -->
       <div
@@ -27,9 +35,9 @@ const slotCount = computed(() => authStore.user ? 4 : 2)
         </span>
       </div>
     </div>
-
+    
     <!-- ekstra gumb ispod slotova kao podsjetnik u slućaju da nismo ulogirani -->
-    <p v-if="!authStore.user" class="mt-8 text-slate-500 text-sm">
+    <p v-if="!authStore.user" class="mt-8 text-slate-500 text-sm flex justify-center">
       <router-link to="/login" class="text-blue-600 hover:underline">
         Log in
       </router-link>
