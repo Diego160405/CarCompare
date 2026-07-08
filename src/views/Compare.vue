@@ -37,9 +37,13 @@ const clearSlot = (slot) => {
   selectedCars.value[slot] = null
 }
 
+// prikaz jedne godine ili raspona godina, ovisno o tome jesu li se specifikacije mjenjale
+const yearLabel = (car) =>
+car.year_start === car.year_end ? `${car.year_start}` : `${car.year_start}-${car.year_end}`
+
 // specifikacije koje se prikazuju u kartici auta
 const specRows = (car) => [
-  ['MSRP', `$${car.msrp_usd.toLocaleString()}`],
+  ['MSRP', `€${car.msrp_eur.toLocaleString()}`],
   ['Power', `${car.power_kw} kW`],
   ['Torque', `${car.torque_nm} Nm`],
   ['0-100 km/h', `${car.zero_to_100_kmh_sec} s`],
@@ -97,7 +101,7 @@ const specRows = (car) => [
             {{ selectedCars[i - 1].name }}
           </h3>
           <p class="text-sm text-slate-400 mb-4">
-            {{ selectedCars[i - 1].year }}
+            {{ yearLabel(selectedCars[i - 1]) }}
           </p>
 
           <dl class="space-y-1.5">
@@ -143,14 +147,14 @@ const specRows = (car) => [
         <div class="overflow-y-auto flex-1">
           <button
             v-for="car in filteredCars"
-            :key="car.name"
+            :key="`${car.name}-${car.year_start}`"
             @click="selectCar(car)"
             class="w-full text-left px-4 py-3 hover:bg-slate-50 border-none bg-transparent cursor-pointer flex justify-between items-center">
             <span class="text-slate-800">
               {{ car.name }}
             </span>
             <span class="text-slate-400 text-sm">
-              {{ car.year }}
+              {{ yearLabel(car) }}
             </span>
           </button>
           <p v-if="!filteredCars.length" class="text-center text-slate-400 py-8 text-sm">

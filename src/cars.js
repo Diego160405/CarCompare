@@ -3,8 +3,9 @@ import raw from '../data/cars.csv?raw'
 
 // stupci koje treba pretvoriti iz stringa u broj, ostali ostaju tekst
 const numericFields = new Set([
-  'year',
-  'msrp_usd',
+  'year_start',
+  'year_end',
+  'msrp_eur',
   'power_kw',
   'torque_nm',
   'zero_to_100_kmh_sec',
