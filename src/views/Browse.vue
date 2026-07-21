@@ -108,8 +108,8 @@
                 <div class="p-5">
                   <div class="flex justify-between items-start gap-2">
                     <div>
-                      <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">{{ car.year }} {{ car.make }}</span>
-                      <h3 class="text-xl font-bold text-slate-900 mt-0.5 leading-tight">{{ car.model }}</h3>
+                      <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">{{ car.year }}</span>
+                      <h3 class="text-xl font-bold text-slate-900 mt-0.5 leading-tight">{{ car.make }} {{ car.model }}</h3>
                     </div>
                     <div class="text-right shrink-0">
                       <span class="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">Starting At</span>

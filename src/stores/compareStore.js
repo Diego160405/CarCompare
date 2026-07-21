@@ -13,7 +13,7 @@ export const useCompareStore = defineStore('compare', () => {
       selectedCars.value[freeSlotIndex] = car
       return true // Uspješno dodano
     } else {
-      alert('Svi slotovi za usporedbu su popunjeni!')
+      alert('All slots are filled')
       return false
     }
   }
