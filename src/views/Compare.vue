@@ -1,15 +1,17 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
+import { useCompareStore } from '@/stores/compareStore'
 import { cars } from '@/cars'
 
 const authStore = useAuthStore()
+const compareStore = useCompareStore()
 
 // ako smo ulogirani vraća 4 slota, ako nismo vraća 2
 const slotCount = computed(() => authStore.user ? 4 : 2)
 
-// odabrani auti po slotu 
-const selectedCars = ref([null, null, null, null])
+// odabrani auti po slotu, sada dolazi iz zajedničkog compareStorea
+const selectedCars = compareStore.selectedCars
 
 // koji je slot trenutno otvoren za biranje auta (null = zatvoreno)
 const pickerSlot = ref(null)
@@ -28,13 +30,14 @@ const closePicker = () => {
   pickerSlot.value = null
 }
 
+// direktno postavlja auto u slot koji je korisnik otvorio
 const selectCar = (car) => {
-  selectedCars.value[pickerSlot.value] = car
+  selectedCars[pickerSlot.value] = car
   closePicker()
 }
 
 const clearSlot = (slot) => {
-  selectedCars.value[slot] = null
+  compareStore.clearSlot(slot)
 }
 
 // prikaz jedne godine ili raspona godina, ovisno o tome jesu li se specifikacije mjenjale
