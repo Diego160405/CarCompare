@@ -17,8 +17,20 @@ const selectedCars = compareStore.selectedCars
 const pickerSlot = ref(null)
 const searchQuery = ref('')
 
+// spriječava da stavimo auto sa godištem više puta
+const usedCars = computed(() =>
+  new Set(
+    selectedCars
+      .filter((car, idx) => car && idx !== pickerSlot.value)
+      .map(car => `${car.name}-${car.year_start}`)
+  )
+)
+
 const filteredCars = computed(() =>
-  cars.filter(car => car.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+  cars.filter(car =>
+    car.name.toLowerCase().includes(searchQuery.value.toLowerCase()) &&
+    !usedCars.value.has(`${car.name}-${car.year_start}`)
+  )
 )
 
 const openPicker = (slot) => {
