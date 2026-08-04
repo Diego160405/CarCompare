@@ -2,14 +2,12 @@
   <div class="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
       
-      <!-- FILTERI -->
       <aside class="w-full md:w-64 shrink-0 bg-white border border-slate-100 rounded-2xl p-5 shadow-sm h-fit">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-lg font-bold text-slate-950 uppercase tracking-wide">Filters</h2>
           <button @click="resetFilters" class="text-sm font-semibold text-blue-600 hover:underline">Reset All</button>
         </div>
-      <!-- filter za MARKU -->
-        <div class="space-y-5">
+      <div class="space-y-5">
           <div>
             <label :class="labelStyle">Make</label>
             <select v-model="filters.make" :class="inputStyle">
@@ -17,16 +15,14 @@
               <option v-for="m in uniqueMakes" :key="m" :value="m">{{ m }}</option>
             </select>
           </div>
-      <!-- filter za MODEL -->
-          <div>
+      <div>
             <label :class="labelStyle">Model</label>
             <select v-model="filters.model" :class="inputStyle" :disabled="!filters.make">
               <option value="">All Models</option>
               <option v-for="m in availableModels" :key="m" :value="m">{{ m }}</option>
             </select>
           </div>
-      <!-- filter za GODIŠTE -->
-          <div>
+      <div>
             <label :class="labelStyle">Year Range</label>
             <div class="flex gap-2">
               <select v-model="filters.yearMin" :class="[inputStyle, 'text-sm px-2']">
@@ -39,8 +35,7 @@
               </select>
             </div>
           </div>
-      <!-- filter za KAROSERIJU -->
-          <div>
+      <div>
             <label :class="labelStyle">Body Style</label>
             <div class="grid grid-cols-2 gap-2">
               <button v-for="s in ['Sedan', 'SUV', 'Coupe', 'Convertible']" :key="s" @click="toggleBodyStyle(s)" type="button"
@@ -50,8 +45,7 @@
               </button>
             </div>
           </div>
-      <!-- i jođ filter za CIJENU -->
-          <div>
+      <div>
             <label :class="labelStyle">Price Range</label>
             <input type="range" min="20000" max="150000" step="5000" v-model.number="filters.priceMax" class="w-full accent-blue-600" />
             <div class="flex justify-between text-xs font-semibold text-slate-400 mt-1">
@@ -67,7 +61,6 @@
         </div>
       </aside>
 
-      <!-- MAIN PANEL gdje se vide auti -->
       <main class="flex-1 flex flex-col justify-between min-w-0">
         <div>
           <div class="mb-5">
@@ -75,7 +68,6 @@
             <p class="text-sm text-slate-500 mt-1">Showing {{ sortedCars.length }} vehicles</p>
           </div>
 
-          <!-- tu radim SEARCH i SORT TRAKU -->
           <div class="flex flex-col sm:flex-row gap-2 bg-white p-2 rounded-2xl border border-slate-100 shadow-sm">
             <div class="relative flex-1">
               <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-400">
@@ -86,8 +78,8 @@
             
             <div class="flex items-center gap-2 sm:w-64 shrink-0">
               <select v-model="sortBy" class="w-full text-sm font-semibold text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
-                <option value="hp-desc">Highest Horsepower</option>
-                <option value="hp-asc">Lowest Horsepower</option>
+                <option value="hp-desc">Horsepower: High to Low</option>
+                <option value="hp-asc">Horsepower: Low to High</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
                 <option value="year-desc">Year: Newest</option>
@@ -96,12 +88,17 @@
             </div>
           </div>
 
-          <!-- KARTICE sa autima-->
           <div v-if="paginatedCars.length > 0" class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div v-for="car in paginatedCars" :key="car.id" class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
               <div>
                 <div class="relative h-52 bg-slate-100">
-                  <img :src="car.image || 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'" :alt="car.model" class="w-full h-full object-cover" />
+                  <img 
+                    :src="car.image" 
+                    :alt="car.model" 
+                    loading="lazy"
+                    @error="(e) => e.target.src = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'" 
+                    class="w-full h-full object-cover" 
+                  />
                   <span v-if="car.year >= currentYear - 1" class="absolute top-3 left-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">New Spec</span>
                 </div>
                 
@@ -134,7 +131,6 @@
                 </div>
               </div>
 
-              <!-- GUMB: Poziva compareStore i dodaje auto u compare onda -->
               <div class="p-5 pt-0">
                 <button @click="compareStore.addCarToCompare(car.original)" class="w-full py-2.5 border border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 text-sm shadow-sm">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
@@ -149,7 +145,6 @@
           </div>
         </div>
 
-        <!-- radim paginaciju za ova kartice autombila -->
         <div v-if="totalPages > 1" class="mt-12 flex justify-center items-center gap-1.5">
           <button @click="currentPage--" :disabled="currentPage === 1" class="w-10 h-10 flex items-center justify-center border border-slate-200 rounded-xl bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-600 transition shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
@@ -175,7 +170,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { cars as localCars } from '@/cars'
-import { useCompareStore } from '@/stores/compareStore' // Uvezen store
+import { useCompareStore } from '@/stores/compareStore' 
 
 const compareStore = useCompareStore()
 
@@ -188,28 +183,47 @@ const currentYear = new Date().getFullYear()
 const years = computed(() => Array.from({ length: currentYear - 1990 + 1 }, (_, i) => currentYear - i))
 const sortBy = ref('hp-desc')
 
-  //iščitava sve aute kada nema filtera ni pretrage
+// funkcija koja automatski spaja Marku, Model i Godinu u ime datoteke za automatsko prikazivanje slika u browseu
+const getCarImage = (car) => {
+  if (car.image) return car.image
+
+  const makeClean = (car.make || '').trim().replaceAll(' ', '_')
+  const modelClean = (car.model || '').trim().replaceAll(' ', '_')
+  const yearClean = car.year || ''
+
+  return `/CarPictures/${makeClean}_${modelClean}_${yearClean}.jpg`
+}
+
+// iščitava sve aute kada nema filtera ni pretrage
 const allCars = computed(() => {
   return localCars.map((car, index) => {
     const parts = car.name ? car.name.split(' ') : []
     const mappedBodyStyle = car.body_type?.toLowerCase() === 'hatchback' ? 'Sedan' : car.body_type
     
-    return {
+    const make = parts[0] || 'Unknown'
+    const model = parts.slice(1).join(' ') || 'Model'
+    const year = car.year_start
+
+    const formattedCar = {
       id: car.id || index,
-      make: parts[0] || 'Unknown',
-      model: parts.slice(1).join(' ') || 'Model',
-      year: car.year_start,
+      make,
+      model,
+      year,
       price: car.msrp_eur,
       acceleration: car.zero_to_100_kmh_sec,
       power: car.power_kw ? Math.round(car.power_kw * 1.36) : 0, 
       drivetrain: car.drivetrain,
       bodyStyle: mappedBodyStyle,
-      image: car.image || null,
       original: car 
     }
+
+    formattedCar.image = car.image || getCarImage(formattedCar)
+
+    return formattedCar
   })
 })
-//defualtni filteri
+
+  //defualtni filteri
 const defaultFilters = () => ({ search: '', make: '', model: '', yearMin: null, yearMax: null, bodyStyles: [], priceMax: 150000 })
 const filters = ref(defaultFilters())
 const activeFilters = ref(defaultFilters())
@@ -227,6 +241,7 @@ const toggleBodyStyle = (s) => {
   const i = filters.value.bodyStyles.indexOf(s)
   i > -1 ? filters.value.bodyStyles.splice(i, 1) : filters.value.bodyStyles.push(s)
 }
+
 //dodavanje i micanje filtera
 const resetFilters = () => { filters.value = defaultFilters(); activeFilters.value = defaultFilters(); currentPage.value = 1 }
 const applyFilters = () => { activeFilters.value = JSON.parse(JSON.stringify(filters.value)); currentPage.value = 1 }
@@ -242,6 +257,7 @@ const filteredCars = computed(() => {
     return car.price <= activeFilters.value.priceMax
   })
 })
+
 //sortiranje auti
 const sortedCars = computed(() => {
   return [...filteredCars.value].sort((a, b) => {
@@ -254,6 +270,7 @@ const sortedCars = computed(() => {
     return 0
   })
 })
+
 //paginacija, kako će se prikazivatai dio za listanje na dnu
 const totalPages = computed(() => Math.ceil(sortedCars.value.length / itemsPerPage) || 1)
 const paginatedCars = computed(() => sortedCars.value.slice((currentPage.value - 1) * itemsPerPage, currentPage.value * itemsPerPage))
