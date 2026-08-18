@@ -45,14 +45,29 @@
               </button>
             </div>
           </div>
-      <div>
-            <label :class="labelStyle">Price Range</label>
-            <input type="range" min="20000" max="150000" step="5000" v-model.number="filters.priceMax" class="w-full accent-blue-600" />
-            <div class="flex justify-between text-xs font-semibold text-slate-400 mt-1">
-              <span>€20k</span>
-              <span>Max: €{{ (filters.priceMax / 1000).toFixed(0) }}k</span>
-            </div>
-          </div>
+
+<div>
+  <label :class="labelStyle">Price Range (€)</label>
+  <div class="flex gap-2 items-center">
+    <input 
+      type="number" 
+      min="0" 
+      placeholder="Min" 
+      v-model.number="filters.priceMin" 
+      @keydown="preventInvalid"
+      :class="inputStyle" 
+    />
+    <span class="text-slate-400 font-bold">-</span>
+    <input 
+      type="number" 
+      min="0" 
+      placeholder="Max" 
+      v-model.number="filters.priceMax" 
+      @keydown="preventInvalid"
+      :class="inputStyle" 
+    />
+  </div>
+</div>
 
           <button @click="applyFilters" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
@@ -99,7 +114,6 @@
                     @error="(e) => e.target.src = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'"
                     class="w-full h-full object-cover"
                   />
-                  <span v-if="car.year >= currentYear - 1" class="absolute top-3 left-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">New Spec</span>
                 </div>
                 
                 <div class="p-5">
@@ -130,7 +144,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="p-5 pt-0">
                 <button @click="compareStore.addCarToCompare(car.original)" class="w-full py-2.5 border border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 text-sm shadow-sm">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
@@ -183,6 +196,9 @@ const currentYear = new Date().getFullYear()
 const years = computed(() => Array.from({ length: currentYear - 1990 + 1 }, (_, i) => currentYear - i))
 const sortBy = ref('hp-desc')
 
+// spriječava unos minusa, plusa i slova e u price inpute
+const preventInvalid = (e) => ['-', '+', 'e', 'E'].includes(e.key) && e.preventDefault()
+
 // funkcija koja automatski spaja Marku, Model i Godinu u ime datoteke za automatsko prikazivanje slika u browseu
 const getCarImage = (car) => {
   if (car.image) return car.image
@@ -224,7 +240,7 @@ const allCars = computed(() => {
 })
 
   //defualtni filteri
-const defaultFilters = () => ({ search: '', make: '', model: '', yearMin: null, yearMax: null, bodyStyles: [], priceMax: 150000 })
+const defaultFilters = () => ({ search: '', make: '', model: '', yearMin: null, yearMax: null, bodyStyles: [], priceMin: null, priceMax: null })
 const filters = ref(defaultFilters())
 const activeFilters = ref(defaultFilters())
 const currentPage = ref(1)
@@ -254,7 +270,9 @@ const filteredCars = computed(() => {
     if (activeFilters.value.yearMin && car.year < activeFilters.value.yearMin) return false
     if (activeFilters.value.yearMax && car.year > activeFilters.value.yearMax) return false
     if (activeFilters.value.bodyStyles.length && !activeFilters.value.bodyStyles.includes(car.bodyStyle)) return false
-    return car.price <= activeFilters.value.priceMax
+    if (activeFilters.value.priceMin !== null && activeFilters.value.priceMin !== '' && car.price < activeFilters.value.priceMin) return false
+    if (activeFilters.value.priceMax !== null && activeFilters.value.priceMax !== '' && car.price > activeFilters.value.priceMax) return false
+    return true
   })
 })
 
