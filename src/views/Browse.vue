@@ -91,13 +91,13 @@
           <div v-if="paginatedCars.length > 0" class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div v-for="car in paginatedCars" :key="car.id" class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
               <div>
-                <div class="relative h-52 bg-slate-100">
-                  <img 
-                    :src="car.image" 
-                    :alt="car.model" 
+                <div class="relative aspect-video bg-slate-100">
+                  <img
+                    :src="car.image"
+                    :alt="car.model"
                     loading="lazy"
-                    @error="(e) => e.target.src = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'" 
-                    class="w-full h-full object-cover" 
+                    @error="(e) => e.target.src = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'"
+                    class="w-full h-full object-cover"
                   />
                   <span v-if="car.year >= currentYear - 1" class="absolute top-3 left-3 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">New Spec</span>
                 </div>
