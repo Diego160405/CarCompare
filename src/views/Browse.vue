@@ -227,7 +227,7 @@ const allCars = computed(() => {
       year,
       price: car.msrp_eur,
       acceleration: car.zero_to_100_kmh_sec,
-      power: car.power_kw ? Math.round(car.power_kw * 1.36) : 0, 
+      power: car.power_kw,
       drivetrain: car.drivetrain,
       bodyStyle: mappedBodyStyle,
       original: car 
