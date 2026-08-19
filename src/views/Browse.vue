@@ -135,7 +135,7 @@
                     </div>
                     <div>
                       <span class="text-[11px] font-medium text-slate-400 block mb-1">Power</span>
-                      <span class="font-bold text-slate-800 text-sm">{{ car.power || 'N/A' }} HP</span>
+                      <span class="font-bold text-slate-800 text-sm">{{ car.power || 'N/A' }} kW</span>
                     </div>
                     <div>
                       <span class="text-[11px] font-medium text-slate-400 block mb-1">Drivetrain</span>
