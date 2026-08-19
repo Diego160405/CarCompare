@@ -56,6 +56,18 @@ const clearSlot = (slot) => {
 const yearLabel = (car) =>
 car.year_start === car.year_end ? `${car.year_start}` : `${car.year_start}-${car.year_end}`
 
+// ista logika za slike kao u Browseu - spaja Marku, Model i Godinu u ime datoteke
+const getCarImage = (car) => {
+  if (car.image) return car.image
+
+  const parts = car.name ? car.name.split(' ') : []
+  const makeClean = (parts[0] || '').trim().replaceAll(' ', '_')
+  const modelClean = parts.slice(1).join(' ').trim().replaceAll(' ', '_')
+  const yearClean = car.year_start || ''
+
+  return `/CarPictures/${makeClean}_${modelClean}_${yearClean}.jpg`
+}
+
 // specifikacije koje se prikazuju u kartici auta
 const specRows = (car) => [
   ['MSRP', `€${car.msrp_eur.toLocaleString()}`],
@@ -105,33 +117,46 @@ const specRows = (car) => [
         </div>
 
         <!-- popunjen slot sa specifikacijama -->
-        <div v-else class="w-72 bg-white border border-slate-200 rounded-2xl shadow-sm p-5 relative">
+        <div v-else class="w-72 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden relative">
           <button
             @click="clearSlot(i - 1)"
-            class="absolute top-3 right-3 text-slate-400 hover:text-red-500 text-lg leading-none cursor-pointer bg-transparent border-none">
+            class="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center rounded-full bg-white/90 text-slate-400 hover:text-red-500 text-lg leading-none cursor-pointer border-none shadow-sm">
             ✕
           </button>
 
-          <h3 class="text-lg font-bold text-slate-900 pr-6">
-            {{ selectedCars[i - 1].name }}
-          </h3>
-          <p class="text-sm text-slate-400 mb-4">
-            {{ yearLabel(selectedCars[i - 1]) }}
-          </p>
+          <!-- slika auta, ista logika i stil kao u Browseu -->
+          <div class="relative aspect-video bg-slate-100">
+            <img
+              :src="getCarImage(selectedCars[i - 1])"
+              :alt="selectedCars[i - 1].name"
+              loading="lazy"
+              @error="(e) => e.target.src = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'"
+              class="w-full h-full object-cover"
+            />
+          </div>
 
-          <dl class="space-y-1.5">
-            <div
-              v-for="[label, value] in specRows(selectedCars[i - 1])"
-              :key="label"
-              class="flex justify-between text-sm">
-              <dt class="text-slate-500">
-                {{ label }}
-              </dt>
-              <dd class="text-slate-800 font-medium">
-                {{ value }}
-              </dd>
-            </div>
-          </dl>
+          <div class="p-5">
+            <h3 class="text-lg font-bold text-slate-900">
+              {{ selectedCars[i - 1].name }}
+            </h3>
+            <p class="text-sm text-slate-400 mb-4">
+              {{ yearLabel(selectedCars[i - 1]) }}
+            </p>
+
+            <dl class="space-y-1.5">
+              <div
+                v-for="[label, value] in specRows(selectedCars[i - 1])"
+                :key="label"
+                class="flex justify-between text-sm">
+                <dt class="text-slate-500">
+                  {{ label }}
+                </dt>
+                <dd class="text-slate-800 font-medium">
+                  {{ value }}
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
