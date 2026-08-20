@@ -71,25 +71,48 @@ const getCarImage = (car) => {
 // specifikacije koje se prikazuju u kartici auta - dostupne svima
 const freeSpecLabels = ['MSRP', 'Power', 'Top speed', 'Drivetrain']
 
-// specifikacije koje se prikazuju u kartici auta
+// definicija svih specifikacija: kako se prikazuju, sirova vrijednost za usporedbu
+const specDefs = [
+  { label: 'MSRP', value: car => `€${car.msrp_eur.toLocaleString()}`, raw: car => car.msrp_eur, better: 'low' },
+  { label: 'Power', value: car => `${car.power_kw} kW`, raw: car => car.power_kw, better: 'high' },
+  { label: 'Torque', value: car => `${car.torque_nm} Nm`, raw: car => car.torque_nm, better: 'high' },
+  { label: '0-100 km/h', value: car => `${car.zero_to_100_kmh_sec} s`, raw: car => car.zero_to_100_kmh_sec, better: 'low' },
+  { label: 'Top speed', value: car => `${car.top_speed_kmh} km/h`, raw: car => car.top_speed_kmh, better: 'high' },
+  { label: 'Curb weight', value: car => `${car.curb_weight_kg} kg`, raw: car => car.curb_weight_kg, better: 'low' },
+  { label: 'Wheelbase', value: car => `${car.wheelbase_mm} mm`, raw: null, better: null },
+  { label: 'Fuel capacity', value: car => car.fuel_capacity_l > 0 ? `${car.fuel_capacity_l} L` : '—', raw: null, better: null },
+  { label: 'Cargo volume', value: car => car.cargo_volume_l > 0 ? `${car.cargo_volume_l} L` : '—', raw: car => car.cargo_volume_l, better: 'high' },
+  { label: 'Fuel type', value: car => car.fuel_type, raw: null, better: null },
+  { label: 'Body type', value: car => car.body_type, raw: null, better: null },
+  { label: 'Drivetrain', value: car => car.drivetrain, raw: null, better: null },
+]
+
+// specifikacije koje se prikazuju u kartici auta, uz bojanje boljih/gorih vrijednosti
 const specRows = (car) => {
-  const rows = [
-    ['MSRP', `€${car.msrp_eur.toLocaleString()}`],
-    ['Power', `${car.power_kw} kW`],
-    ['Torque', `${car.torque_nm} Nm`],
-    ['0-100 km/h', `${car.zero_to_100_kmh_sec} s`],
-    ['Top speed', `${car.top_speed_kmh} km/h`],
-    ['Curb weight', `${car.curb_weight_kg} kg`],
-    ['Wheelbase', `${car.wheelbase_mm} mm`],
-    ['Fuel capacity', car.fuel_capacity_l > 0 ? `${car.fuel_capacity_l} L` : '—'],
-    ['Cargo volume', car.cargo_volume_l > 0 ? `${car.cargo_volume_l} L` : '—'],
-    ['Fuel type', car.fuel_type],
-    ['Body type', car.body_type],
-    ['Drivetrain', car.drivetrain],
-  ]
+  const filledCars = selectedCars.filter(c => c)
+
+  const rows = specDefs.map(def => {
+    let className = ''
+
+    if (def.better && filledCars.length > 1) {
+      const values = filledCars.map(def.raw)
+      const min = Math.min(...values)
+      const max = Math.max(...values)
+
+      if (min !== max) {
+        const raw = def.raw(car)
+        const bestValue = def.better === 'high' ? max : min
+
+        // najbolja vrijednost je zelena, sve ostale su crvene
+        className = raw === bestValue ? 'bg-green-50' : 'bg-red-50'
+      }
+    }
+
+    return { label: def.label, value: def.value(car), className }
+  })
 
   // bez logina se vide samo osnovne specifikacije
-  return authStore.user ? rows : rows.filter(([label]) => freeSpecLabels.includes(label))
+  return authStore.user ? rows : rows.filter(row => freeSpecLabels.includes(row.label))
 }
 </script>
 
@@ -153,14 +176,14 @@ const specRows = (car) => {
 
             <dl class="space-y-1.5">
               <div
-                v-for="[label, value] in specRows(selectedCars[i - 1])"
-                :key="label"
-                class="flex justify-between text-sm">
+                v-for="row in specRows(selectedCars[i - 1])"
+                :key="row.label"
+                :class="['flex justify-between text-sm px-2 py-1 -mx-2 rounded-lg', row.className]">
                 <dt class="text-slate-500">
-                  {{ label }}
+                  {{ row.label }}
                 </dt>
                 <dd class="text-slate-800 font-medium">
-                  {{ value }}
+                  {{ row.value }}
                 </dd>
               </div>
             </dl>
