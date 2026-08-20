@@ -68,21 +68,29 @@ const getCarImage = (car) => {
   return `/CarPictures/${makeClean}_${modelClean}_${yearClean}.jpg`
 }
 
+// specifikacije koje se prikazuju u kartici auta - dostupne svima
+const freeSpecLabels = ['MSRP', 'Power', 'Top speed', 'Drivetrain']
+
 // specifikacije koje se prikazuju u kartici auta
-const specRows = (car) => [
-  ['MSRP', `€${car.msrp_eur.toLocaleString()}`],
-  ['Power', `${car.power_kw} kW`],
-  ['Torque', `${car.torque_nm} Nm`],
-  ['0-100 km/h', `${car.zero_to_100_kmh_sec} s`],
-  ['Top speed', `${car.top_speed_kmh} km/h`],
-  ['Curb weight', `${car.curb_weight_kg} kg`],
-  ['Wheelbase', `${car.wheelbase_mm} mm`],
-  ['Fuel capacity', car.fuel_capacity_l > 0 ? `${car.fuel_capacity_l} L` : '—'],
-  ['Cargo volume', car.cargo_volume_l > 0 ? `${car.cargo_volume_l} L` : '—'],
-  ['Fuel type', car.fuel_type],
-  ['Body type', car.body_type],
-  ['Drivetrain', car.drivetrain],
-]
+const specRows = (car) => {
+  const rows = [
+    ['MSRP', `€${car.msrp_eur.toLocaleString()}`],
+    ['Power', `${car.power_kw} kW`],
+    ['Torque', `${car.torque_nm} Nm`],
+    ['0-100 km/h', `${car.zero_to_100_kmh_sec} s`],
+    ['Top speed', `${car.top_speed_kmh} km/h`],
+    ['Curb weight', `${car.curb_weight_kg} kg`],
+    ['Wheelbase', `${car.wheelbase_mm} mm`],
+    ['Fuel capacity', car.fuel_capacity_l > 0 ? `${car.fuel_capacity_l} L` : '—'],
+    ['Cargo volume', car.cargo_volume_l > 0 ? `${car.cargo_volume_l} L` : '—'],
+    ['Fuel type', car.fuel_type],
+    ['Body type', car.body_type],
+    ['Drivetrain', car.drivetrain],
+  ]
+
+  // bez logina se vide samo osnovne specifikacije
+  return authStore.user ? rows : rows.filter(([label]) => freeSpecLabels.includes(label))
+}
 </script>
 
 
