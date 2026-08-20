@@ -1,6 +1,6 @@
 // Učitavanje potrebnih funkcija
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 //Firebase Konfiguracija
@@ -19,6 +19,9 @@ const app = initializeApp(firebaseConfig);
 // Inicijalizacija servisa
 const auth = getAuth(app); // auth instanca
 const db = getFirestore(app); // database instanca
+
+// Odjava se dešava kada se zatvori tab/preglednik - sesija se ne pamti dugoročno
+setPersistence(auth, browserSessionPersistence);
 
 // Izvoz servisa
 export { auth, db };
