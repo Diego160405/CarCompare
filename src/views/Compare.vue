@@ -45,6 +45,9 @@ const closePicker = () => {
 // direktno postavlja auto u slot koji je korisnik otvorio
 const selectCar = (car) => {
   selectedCars[pickerSlot.value] = car
+  if (compareStore.trackComparison) {
+    compareStore.trackComparison(car) // povezan sa most compared
+  }
   closePicker()
 }
 
