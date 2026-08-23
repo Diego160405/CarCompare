@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import { useCompareStore } from '@/stores/compareStore'
+import { useRouter } from 'vue-router'
+import { cars } from '@/cars'
 
 const authStore = useAuthStore()
 const compareStore = useCompareStore()
