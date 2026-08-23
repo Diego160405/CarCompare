@@ -30,6 +30,22 @@ const formatPrice = (car) => {
   }
   return 'N/A'
 }
+
+// Comparison
+const car1 = cars.find(c => c.name === 'Audi A6' && c.year_start === 2019)
+const car2 = cars.find(c => c.name === 'Ford Mustang Shelby GT500' && c.year_start === 2020)
+
+const launchRivalry = () => {
+  compareStore.clearSlot(0)
+  compareStore.clearSlot(1)
+  compareStore.clearSlot(2)
+  compareStore.clearSlot(3)
+
+  if (car1) compareStore.addCarToCompare(car1)
+  if (car2) compareStore.addCarToCompare(car2)
+
+  router.push('/compare')
+}
 </script>
 
 <template>
@@ -61,6 +77,37 @@ const formatPrice = (car) => {
       </div>
     </div>
 
+<!-- Featured Comparison -->
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 pt-12 bg-white">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <!-- Slike auta -->
+        <div class="relative w-full md:w-1/2 h-44 rounded-xl overflow-hidden bg-slate-900 grid grid-cols-2">
+          <img :src="getCarImage(car1)" :alt="car1?.name" class="w-full h-full object-cover border-r border-slate-800" />
+          <img :src="getCarImage(car2)" :alt="car2?.name" class="w-full h-full object-cover" />
+          
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <span class="bg-slate-900 text-white text-[11px] font-black px-2.5 py-1 rounded-full border border-slate-700 shadow-md">VS</span>
+          </div>
+        </div>
+
+        <!-- Informacije i Gumb -->
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-start">
+          <span class="text-xs font-bold text-blue-600 tracking-wider uppercase mb-1">Featured Comparison</span>
+          <h3 class="text-xl font-bold text-slate-900 mb-1">Audi A6 (2019) vs Mustang Shelby GT500 (2020)</h3>
+          <p class="text-xs text-slate-500 mb-5 leading-relaxed">Executive luxury specs meet track-focused V8 performance.</p>
+          
+          <button 
+            @click="launchRivalry" 
+            class="w-full sm:w-auto px-6 py-2.5 bg-[#0a192f] hover:bg-slate-800 text-white font-semibold text-sm rounded-lg transition cursor-pointer"
+          >
+            Compare These Cars →
+          </button>
+        </div>
+
+      </div>
+    </div>
+    
     <!-- Trending / Most Compared sekcija -->
     <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 bg-slate-50">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
