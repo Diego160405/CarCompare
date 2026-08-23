@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { cars } from '@/cars'
 import { db } from '@/firebase'
 import { doc, setDoc, increment, collection, onSnapshot } from 'firebase/firestore'
+import { useAuthStore } from '@/stores/authStore'
 
 export const useCompareStore = defineStore('compare', () => {
   const selectedCars = ref([null, null, null, null])
@@ -45,6 +46,17 @@ export const useCompareStore = defineStore('compare', () => {
   const addCarToCompare = (car) => {
     if (!car) return false
 
+    const authStore = useAuthStore()
+
+    // Izračun koliko je slotova trenutno zauzeto
+    const activeCarsCount = selectedCars.value.filter(slot => slot !== null).length
+
+    // Ako korisnik nije ulogiran, dopušteno je maksimalno 2 auta
+    if (!authStore.isAuthenticated && activeCarsCount >= 2) {
+      alert('Guest users can compare a maximum of 2 cars. Please log in to unlock 4 slots!')
+      return false
+    }
+    
     // Provjera da auto već nije dodan
     const isAlreadyAdded = selectedCars.value.some(
       slot => slot && slot.name === car.name && slot.year_start === car.year_start
