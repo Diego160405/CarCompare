@@ -214,7 +214,7 @@ const getCarImage = (car) => {
 const allCars = computed(() => {
   return localCars.map((car, index) => {
     const parts = car.name ? car.name.split(' ') : []
-    const mappedBodyStyle = car.body_type?.toLowerCase() === 'hatchback' ? 'Sedan' : car.body_type
+    const mappedBodyStyle = ['hatchback', 'wagon'].includes(car.body_type?.toLowerCase()) ? 'Sedan' : car.body_type
     
     const make = parts[0] || 'Unknown'
     const model = parts.slice(1).join(' ') || 'Model'
