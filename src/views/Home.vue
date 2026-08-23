@@ -7,6 +7,7 @@ import { cars } from '@/cars'
 
 const authStore = useAuthStore()
 const compareStore = useCompareStore()
+const router = useRouter()
 
 // Dohvat top 4 auta po compareu
 const trendingCars = computed(() => compareStore.mostComparedCars || [])
