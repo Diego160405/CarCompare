@@ -112,7 +112,7 @@ const launchRivalry = () => {
     </div>
     
     <!-- Trending / Most Compared sekcija -->
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 bg-white">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
         <div>
           <h2 class="text-2xl font-bold text-slate-900">Trending Car Models</h2>
