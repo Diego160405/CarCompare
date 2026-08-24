@@ -144,8 +144,12 @@
                   </div>
                 </div>
               </div>
-              <div class="p-5 pt-0">
-                <button @click="compareStore.addCarToCompare(car.original)" class="w-full py-2.5 border border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 text-sm shadow-sm">
+              <div class="p-5 pt-0 flex gap-2">
+                <button @click="openDetails(car)" class="flex-1 py-2.5 border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 text-sm shadow-sm">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Details
+                </button>
+                <button @click="compareStore.addCarToCompare(car.original)" class="flex-1 py-2.5 border border-blue-200 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-colors flex items-center justify-center gap-1.5 text-sm shadow-sm">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
                   Add to Compare
                 </button>
@@ -177,6 +181,51 @@
       </main>
 
     </div>
+
+    <!-- detalji auta -->
+    <div
+      v-if="detailsCar"
+      @click.self="closeDetails"
+      class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[85vh] overflow-y-auto relative">
+        <button
+          @click="closeDetails"
+          class="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/90 text-slate-400 hover:text-red-500 text-lg leading-none cursor-pointer border-none shadow-sm">
+          ✕
+        </button>
+
+        <div class="relative aspect-video bg-slate-100">
+          <img
+            :src="detailsCar.image"
+            :alt="detailsCar.model"
+            @error="(e) => e.target.src = 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=600'"
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <div class="p-6">
+          <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">{{ detailsCar.year }}</span>
+          <h3 class="text-2xl font-bold text-slate-900 mt-0.5 mb-4">{{ detailsCar.make }} {{ detailsCar.model }}</h3>
+
+          <dl class="space-y-1.5">
+            <div
+              v-for="[label, value] in detailSpecs(detailsCar.original)"
+              :key="label"
+              class="flex justify-between text-sm py-1.5 border-b border-slate-50 last:border-0">
+              <dt class="text-slate-500">{{ label }}</dt>
+              <dd class="text-slate-800 font-medium">{{ value }}</dd>
+            </div>
+          </dl>
+
+          <button
+            @click="compareStore.addCarToCompare(detailsCar.original); closeDetails()"
+            class="w-full mt-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 text-sm shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+            Add to Compare
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -198,6 +247,27 @@ const sortBy = ref('hp-desc')
 
 // spriječava unos minusa, plusa i slova e u price inpute
 const preventInvalid = (e) => ['-', '+', 'e', 'E'].includes(e.key) && e.preventDefault()
+
+// auto čiji se detalji trenutno prikazuju
+const detailsCar = ref(null)
+const openDetails = (car) => { detailsCar.value = car }
+const closeDetails = () => { detailsCar.value = null }
+
+// pune specifikacije auta s detaljima
+const detailSpecs = (originalCar) => [
+  ['MSRP', `€${Number(originalCar.msrp_eur || 0).toLocaleString('de-DE')}`],
+  ['Power', `${originalCar.power_kw} kW`],
+  ['Torque', `${originalCar.torque_nm} Nm`],
+  ['0-100 km/h', `${originalCar.zero_to_100_kmh_sec} s`],
+  ['Top speed', `${originalCar.top_speed_kmh} km/h`],
+  ['Curb weight', `${originalCar.curb_weight_kg} kg`],
+  ['Wheelbase', `${originalCar.wheelbase_mm} mm`],
+  ['Fuel capacity', originalCar.fuel_capacity_l > 0 ? `${originalCar.fuel_capacity_l} L` : '—'],
+  ['Cargo volume', originalCar.cargo_volume_l > 0 ? `${originalCar.cargo_volume_l} L` : '—'],
+  ['Fuel type', originalCar.fuel_type],
+  ['Body type', originalCar.body_type],
+  ['Drivetrain', originalCar.drivetrain],
+]
 
 // funkcija koja automatski spaja Marku, Model i Godinu u ime datoteke za automatsko prikazivanje slika u browseu
 const getCarImage = (car) => {
