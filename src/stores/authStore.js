@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
   const error = ref(null)
 
+  const isAuthenticated = computed(() => !!user.value)  
   // Praćenje stanja autentifikacije - reagira na svaku promjenu
   onAuthStateChanged(auth, (currentUser) => {
     user.value = currentUser
@@ -42,7 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
     await signOut(auth)
   }
 
-  return { user, error, register, login, logout }
+  return { user, error, isAuthenticated, register, login, logout }
 })
 
 
