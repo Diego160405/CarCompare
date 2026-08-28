@@ -1,38 +1,20 @@
 # CarCompare
 
-This template should help get you started developing with Vue 3 in Vite.
+**Tim:**
+- Diego Šćulac
+- Dario Žepić
 
-## Recommended IDE Setup
+- Fakultet informatike u Puli - https://fipu.unipu.hr/
+- Kolegij: Programsko inženjerstvo - https://ntankovic.unipu.hr/pi
+- Mentor: doc. dr. sc. Nikola Tanković - https://ntankovic.unipu.hr
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+CarCompare korisnicima omogućuje pregled baze vozila (**Browse**) uz filtriranje po marki, modelu, godini, tipu karoserije i cijeni, te izravnu usporedbu tehničkih specifikacija više vozila istovremeno (**Compare**). Aplikacija uključuje registraciju i prijavu korisnika (Firebase Authentication): neulogirani korisnici mogu usporediti do 2 vozila uz osnovne specifikacije, dok ulogirani korisnici mogu usporediti do 4 vozila uz sve dostupne specifikacije.
 
-## Recommended Browser Setup
+## Javni prototip
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+https://www.figma.com/site/9XjBho4YvLFddlVB2o4E6V/CarCompare?node-id=1-9162&t=ws3ogfXRrhkJzfvM-1
 
-## Customize configuration
+## Planirana zaduženja po članu tima
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+- **Diego Šćulac** — Prijava i registracija korisnika (Signup/Login), stranica za usporedbu vozila (Compare), baza podataka i slike vozila.
+- **Dario Žepić** — Početna stranica (Home), stranica za pregled vozila (Browse), baza podataka i slike vozila.
