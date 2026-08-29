@@ -38,7 +38,7 @@
       <div>
             <label :class="labelStyle">Body Style</label>
             <div class="grid grid-cols-2 gap-2">
-              <button v-for="s in ['Sedan', 'SUV', 'Coupe', 'Convertible']" :key="s" @click="toggleBodyStyle(s)" type="button"
+              <button v-for="s in ['Sedan', 'SUV', 'Coupe', 'Convertible','Hatchback', 'Wagon']" :key="s" @click="toggleBodyStyle(s)" type="button"
                 :class="['px-3 py-2 text-xs font-semibold rounded-full border transition-all text-center', 
                   filters.bodyStyles.includes(s) ? 'border-blue-600 bg-blue-50 text-blue-600' : 'border-slate-200 text-slate-600 hover:bg-slate-50']">
                 {{ s }}
@@ -284,7 +284,6 @@ const getCarImage = (car) => {
 const allCars = computed(() => {
   return localCars.map((car, index) => {
     const parts = car.name ? car.name.split(' ') : []
-    const mappedBodyStyle = ['hatchback', 'wagon'].includes(car.body_type?.toLowerCase()) ? 'Sedan' : car.body_type
     
     const make = parts[0] || 'Unknown'
     const model = parts.slice(1).join(' ') || 'Model'
@@ -299,7 +298,7 @@ const allCars = computed(() => {
       acceleration: car.zero_to_100_kmh_sec,
       power: car.power_kw,
       drivetrain: car.drivetrain,
-      bodyStyle: mappedBodyStyle,
+      bodyStyle: car.body_type,
       original: car 
     }
 
